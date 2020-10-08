@@ -246,7 +246,7 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
         int times;
 
         visited = new HashMap<>();
-        System.out.println("After Update !!");
+        System.out.println("After Update V1.0.0!!");
         try {
             // handle redirection logic
             while (true) {
