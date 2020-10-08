@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.SSLCertificateSocketFactory;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import androidx.core.content.ContextCompat;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,6 +45,8 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -232,7 +236,7 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
         String url = fileURL;
         URL resourceUrl, base, next;
         Map<String, Integer> visited;
-        HttpURLConnection httpConn = null;
+        HttpsURLConnection httpConn = null;
         InputStream inputStream = null;
         FileOutputStream outputStream = null;
         String saveFilePath;
@@ -258,8 +262,9 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
 
                 resourceUrl = new URL(url);
                 log("Open connection to " + url);
-                httpConn = (HttpURLConnection) resourceUrl.openConnection();
-
+                httpConn = (HttpsURLConnection) resourceUrl.openConnection();
+                httpConn.setSSLSocketFactory(SSLCertificateSocketFactory.getInsecure(0, null));
+                httpConn.setHostnameVerifier(new AllowAllHostnameVerifier());
                 httpConn.setConnectTimeout(15000);
                 httpConn.setReadTimeout(15000);
                 httpConn.setInstanceFollowRedirects(false);   // Make the logic below easier to detect redirections
