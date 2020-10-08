@@ -10,19 +10,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.BitmapFactory;
 import android.os.Build;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
-
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,9 +43,6 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import androidx.work.Worker;
-import androidx.work.WorkerParameters;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -245,7 +242,7 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
         int times;
 
         visited = new HashMap<>();
-
+        System.out.println("After Update !!");
         try {
             // handle redirection logic
             while (true) {

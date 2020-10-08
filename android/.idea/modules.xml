@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/flutter_downloader.iml" filepath="$PROJECT_DIR$/flutter_downloader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vn.hunghd.flutterdownloader-flutter_downloader.iml" filepath="$PROJECT_DIR$/.idea/modules/vn.hunghd.flutterdownloader-flutter_downloader.iml" group="flutter_downloader" />
     </modules>
   </component>
 </project>
