@@ -33,7 +33,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayDeque;
@@ -205,7 +204,7 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
         }
     }
 
-    private void setupHeaders(HttpURLConnection conn, String headers) {
+    private void setupHeaders(HttpsURLConnection conn, String headers) {
         if (!TextUtils.isEmpty(headers)) {
             log("Headers = " + headers);
             try {
@@ -221,7 +220,7 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
         }
     }
 
-    private long setupPartialDownloadedDataHeader(HttpURLConnection conn, String filename, String savedDir) {
+    private long setupPartialDownloadedDataHeader(HttpsURLConnection conn, String filename, String savedDir) {
         String saveFilePath = savedDir + File.separator + filename;
         File partialFile = new File(saveFilePath);
         long downloadedBytes = partialFile.length();
@@ -246,7 +245,7 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
         int times;
 
         visited = new HashMap<>();
-        System.out.println("After Update V1.0.0!!");
+        System.out.println("After Update V1.1.0!!");
         try {
             // handle redirection logic
             while (true) {
@@ -279,9 +278,9 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
 
                 responseCode = httpConn.getResponseCode();
                 switch (responseCode) {
-                    case HttpURLConnection.HTTP_MOVED_PERM:
-                    case HttpURLConnection.HTTP_SEE_OTHER:
-                    case HttpURLConnection.HTTP_MOVED_TEMP:
+                    case HttpsURLConnection.HTTP_MOVED_PERM:
+                    case HttpsURLConnection.HTTP_SEE_OTHER:
+                    case HttpsURLConnection.HTTP_MOVED_TEMP:
                         log("Response with redirection code");
                         location = httpConn.getHeaderField("Location");
                         log("Location = " + location);
@@ -297,7 +296,7 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
 
             httpConn.connect();
 
-            if ((responseCode == HttpURLConnection.HTTP_OK || (isResume && responseCode == HttpURLConnection.HTTP_PARTIAL)) && !isStopped()) {
+            if ((responseCode == HttpsURLConnection.HTTP_OK || (isResume && responseCode == HttpsURLConnection.HTTP_PARTIAL)) && !isStopped()) {
                 String contentType = httpConn.getContentType();
                 int contentLength = httpConn.getContentLength();
                 log("Content-Type = " + contentType);
